@@ -46,7 +46,15 @@
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Nominal Deposito</label>
                         <div class="relative">
                             <span class="absolute left-4 top-3.5 font-bold text-slate-400">Rp</span>
-                            <input type="text" id="nominal" oninput="formatInput(this)" class="w-full pl-10 pr-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold transition placeholder-slate-300" placeholder="0">
+                            <input 
+                                type="text" 
+                                id="nominal" 
+                                inputmode="numeric" 
+                                pattern="[0-9]*" 
+                                oninput="formatInput(this)" 
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold transition placeholder-slate-300" 
+                                placeholder="0"
+                            >
                         </div>
                     </div>
 
@@ -96,7 +104,15 @@
                             <div id="partialInput" class="hidden space-y-1">
                                 <div class="relative">
                                     <span class="absolute left-3 top-2.5 font-bold text-slate-400 text-xs">Rp</span>
-                                    <input type="text" id="nominalReinvest" oninput="formatInput(this)" class="w-full pl-8 pr-4 py-2 bg-white border-2 border-slate-200 rounded-xl text-xs font-bold" placeholder="Nominal Baru">
+                                    <input 
+                                        type="text" 
+                                        id="nominalReinvest" 
+                                        inputmode="numeric" 
+                                        pattern="[0-9]*" 
+                                        oninput="formatInput(this)" 
+                                        class="w-full pl-8 pr-4 py-2 bg-white border-2 border-slate-200 rounded-xl text-xs font-bold" 
+                                        placeholder="Nominal Baru"
+                                    >
                                 </div>
                             </div>
                         </div>
