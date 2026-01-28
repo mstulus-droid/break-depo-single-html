@@ -27,7 +27,7 @@
                     <i class="fas fa-arrow-left"></i>
                 </div>
                 <div class="w-10 h-10 border-2 border-white rounded-full flex items-center justify-center font-black text-xs shrink-0">BD</div>
-                <div class="flex-1">
+                <div class="flex-1 text-left">
                     <h1 id="headerTitle" class="text-base font-bold leading-none">Kalkulator Break Depo</h1>
                     <p class="text-[8px] opacity-50 tracking-widest mt-1 uppercase">Bizdev Bank WM</p>
                 </div>
@@ -60,20 +60,20 @@
 
                     <!-- Tanggal -->
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-1">
+                        <div class="space-y-1 text-left">
                             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Tanggal Tanam</label>
                             <input type="date" id="tglTanam" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm outline-none">
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1 text-left">
                             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Tanggal Break</label>
                             <input type="date" id="tglBreak" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm outline-none">
                         </div>
                     </div>
 
                     <!-- Tenor -->
-                    <div class="space-y-1">
+                    <div class="space-y-1 text-left">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Tenor Kontrak Awal</label>
-                        <select id="tenor" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm outline-none">
+                        <select id="tenor" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm outline-none bg-slate-50">
                             <option value="">Pilih Tenor</option>
                             <option value="1">1 Bulan</option>
                             <option value="3">3 Bulan</option>
@@ -85,8 +85,8 @@
                         </select>
                     </div>
 
-                    <!-- Pencairan Re-Invest Section -->
-                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-3 transition-all duration-300">
+                    <!-- Re-Invest Section -->
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-3 transition-all duration-300 text-left">
                         <div class="flex items-center gap-3 cursor-pointer" onclick="toggleReinvest()">
                             <div id="checkReinvest" class="w-6 h-6 rounded-md border-2 bg-white border-slate-300 transition flex items-center justify-center text-white text-[12px]">✓</div>
                             <span class="text-sm font-bold text-slate-700">Pencairan Re-Invest</span>
@@ -119,25 +119,31 @@
                     </div>
                 </div>
 
+                <!-- Action Buttons -->
                 <div class="grid grid-cols-2 gap-4 pt-2">
-                    <button onclick="resetApp()" class="py-4 bg-slate-100 text-slate-500 font-bold rounded-2xl hover:bg-slate-200 transition text-sm uppercase">Reset</button>
+                    <button onclick="resetApp()" class="py-4 bg-slate-100 text-slate-500 font-bold rounded-2xl hover:bg-slate-200 transition text-sm uppercase tracking-wide">Reset</button>
                     <button onclick="calculate()" class="py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-black transition btn-shadow text-sm uppercase tracking-wide">Hitung Break</button>
                 </div>
 
                 <!-- HASIL -->
-                <div id="resultCard" class="hidden bg-white rounded-3xl p-6 border-2 border-slate-100 shadow-xl space-y-6 fade-in">
+                <div id="resultCard" class="hidden bg-white rounded-3xl p-6 border-2 border-slate-100 shadow-xl space-y-6 fade-in text-left">
                     <div class="text-center">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase">Dana Diterima (Estimasi)</p>
-                        <h2 id="resTotal" class="text-3xl font-black text-slate-900">Rp 0</h2>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Estimasi Total Pencairan</p>
+                        <h2 id="resTotal" class="text-3xl font-black text-slate-900 mt-2">Rp 0</h2>
+                        <!-- Penjelasan Grand Total (Net + Bunga Diterima) -->
+                        <p id="resTotalBenefit" class="text-[9px] text-slate-400 mt-1 font-medium italic"></p>
                     </div>
                     <div class="space-y-3">
-                        <div class="flex justify-between text-sm"><span class="text-slate-500 font-medium">Umur Deposito</span><span id="resUmur" class="font-bold">-</span></div>
-                        <div class="flex justify-between text-sm text-red-500"><span id="penaltyLabel" class="font-medium">Denda Penalty (0,1%)</span><span id="resPenalty" class="font-bold">-</span></div>
-                        <div class="flex justify-between text-sm text-red-500 border-b border-slate-100 pb-3">
-                            <span class="font-medium">Kelebihan Bunga</span>
+                        <div class="flex justify-between text-sm items-center"><span class="text-slate-500 font-medium">Umur Deposito</span><span id="resUmur" class="font-bold">-</span></div>
+                        <div class="flex justify-between text-sm items-center text-red-500"><span id="penaltyLabel" class="font-medium">Denda Penalty (0,1%)</span><span id="resPenalty" class="font-bold">-</span></div>
+                        <div class="flex justify-between text-sm text-red-500 border-b border-slate-100 pb-3 items-start">
+                            <div class="flex flex-col">
+                                <span class="font-medium leading-tight">Kelebihan Bunga</span>
+                                <span class="text-[9px] opacity-70 italic">(Harus Dikembalikan)</span>
+                            </div>
                             <div class="flex flex-col items-end">
-                                <span id="resReversal" class="font-bold">-</span>
-                                <button id="detailToggleBtn" onclick="toggleDetails()" class="text-[10px] text-blue-600 font-bold mt-1 underline hover:text-blue-800">Lihat Rincian</button>
+                                <span id="resReversal" class="font-bold text-base">-</span>
+                                <button id="detailToggleBtn" onclick="toggleDetails()" class="text-[10px] text-blue-600 font-bold mt-1 underline hover:text-blue-800 tracking-tight">Lihat Rincian</button>
                             </div>
                         </div>
                         
@@ -145,17 +151,33 @@
                         <div id="details" class="hidden p-4 bg-slate-50/50 rounded-2xl text-[11px] space-y-3 border border-slate-100 fade-in">
                             <div class="flex items-start gap-2 p-2 bg-blue-50 text-blue-800 rounded-lg font-bold border border-blue-100 leading-tight">
                                 <i class="fas fa-info-circle text-[10px] mt-0.5"></i>
-                                <div class="flex flex-col">
+                                <div class="flex flex-col text-left">
                                     <span class="text-[9px]">Memo Suku Bunga Depo:</span>
                                     <span id="detMemo" class="text-[10px]">Berlaku -</span>
                                 </div>
                             </div>
-                            <div class="flex justify-between text-slate-600"><span>Bunga Kontrak <span id="detRateOldP"></span></span><span id="detRateOld" class="font-bold text-slate-800">-</span></div>
-                            <div class="flex justify-between text-slate-600"><span>Bunga Riil <span id="detRateNewP"></span></span><span id="detRateNew" class="font-bold text-slate-800">-</span></div>
-                            <div class="flex justify-between pt-2 border-t border-slate-200 font-bold">
-                                <span class="text-slate-900">Total Selisih</span>
-                                <span id="detTotalDiff" class="text-red-500">-</span>
+                            <div class="flex justify-between text-slate-600">
+                                <span class="flex flex-col">
+                                    <span>Bunga Kontrak <span id="detRateOldP"></span></span>
+                                    <span id="detFormulaOld" class="text-[8px] opacity-50 font-normal italic leading-none mt-1"></span>
+                                </span>
+                                <span id="detRateOld" class="font-bold text-slate-800 text-right whitespace-nowrap">-</span>
                             </div>
+                            <div class="flex justify-between text-slate-600 border-t border-slate-50 pt-2">
+                                <span class="flex flex-col">
+                                    <span>Bunga Riil <span id="detRateNewP"></span></span>
+                                    <span id="detFormulaNew" class="text-[8px] opacity-50 font-normal italic leading-none mt-1"></span>
+                                </span>
+                                <span id="detRateNew" class="font-bold text-slate-800 text-right whitespace-nowrap">-</span>
+                            </div>
+                            <div class="pt-2 border-t border-slate-200">
+                                <div class="flex justify-between font-bold mb-1">
+                                    <span class="text-slate-900">Total Selisih</span>
+                                    <span id="detTotalDiff" class="text-red-500">-</span>
+                                </div>
+                                <div id="detBreakdown" class="text-[10px] text-red-400 text-right italic font-bold leading-tight"></div>
+                            </div>
+                            <p class="text-[8px] text-slate-400 italic text-center">* Rumus SOP: (Nominal x Rate x Hari) / 365</p>
                         </div>
                     </div>
                 </div>
@@ -163,9 +185,9 @@
 
             <!-- VIEW: HISTORY -->
             <div id="historyView" class="hidden p-6 space-y-4 fade-in">
-                <div class="p-4 bg-blue-50 text-blue-700 rounded-xl flex gap-3 items-start border border-blue-100 shadow-sm">
+                <div class="p-4 bg-blue-50 text-blue-700 rounded-xl flex gap-3 items-start border border-blue-100 shadow-sm text-left">
                     <i class="fas fa-info-circle mt-1"></i>
-                    <p class="text-[11px] leading-relaxed font-medium">Data histori memo suku bunga di bawah ini digunakan untuk perhitungan otomatis berdasarkan Tanggal Tanam deposito Anda.</p>
+                    <p class="text-[11px] leading-relaxed font-medium">Data histori memo suku bunga digunakan untuk perhitungan otomatis berdasarkan Tanggal Tanam deposito Anda.</p>
                 </div>
                 <div id="historyList" class="space-y-3"></div>
             </div>
@@ -176,12 +198,12 @@
             <div class="flex items-center gap-2 opacity-30 group hover:opacity-100 transition-opacity duration-500">
                 <div class="w-6 h-6 border-2 border-slate-900 rounded-full flex items-center justify-center font-black text-[8px] shrink-0">BD</div>
                 <div class="text-xs font-black tracking-tighter text-slate-900 uppercase">Bizdev Bank WM</div>
+            </div>
         </footer>
     </div>
 
     <script>
-        /** * DATA BUNGA INTERNAL (Lengkap 11 Memo)
-         */
+        /** * DATA BUNGA INTERNAL (Lengkap 11 Memo) */
         const DATA_MEMO_BUNGA = [
             { date: "2025-08-28", rates: { 1: 4.5, 3: 4.75, 6: 5.25, 12: 5.5, 24: 6.5, 36: 7.0, 60: 8.25 } },
             { date: "2023-02-01", rates: { 1: 4.75, 3: 5.0, 6: 5.5, 12: 5.75, 24: 6.75, 36: 7.25, 60: 8.5 } },
@@ -259,6 +281,10 @@
             return 'Rp ' + Math.round(num).toLocaleString('id-ID');
         }
 
+        function formatSimple(num) {
+            return Math.round(num).toLocaleString('id-ID');
+        }
+
         function formatDateReadable(dateStr) {
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
             return new Date(dateStr).toLocaleDateString('id-ID', options);
@@ -290,20 +316,18 @@
 
             if (end <= start) return alert("Tanggal Break tidak boleh sebelum/sama dengan Tanggal Tanam!");
 
-            // Umur Deposito
-            const diffDays = Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24));
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
             let monthsPassed = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
             if (end.getDate() < start.getDate()) monthsPassed--;
             monthsPassed = Math.max(0, monthsPassed);
 
-            // Cari Memo Suku Bunga (Sort Desc)
             const sorted = [...DATA_MEMO_BUNGA].sort((a, b) => new Date(b.date) - new Date(a.date));
             const activeIdx = sorted.findIndex(m => new Date(m.date) <= start);
             if (activeIdx === -1) return alert("Data bunga tidak ditemukan untuk tanggal tanam tersebut.");
 
             const activeMemo = sorted[activeIdx];
-            
-            // Label Periode
             let memoLabel = "";
             const tglMulai = formatDateReadable(activeMemo.date);
             if (activeIdx === 0) {
@@ -314,7 +338,6 @@
                 memoLabel = `Berlaku ${tglMulai} s/d ${formatDateReadable(nextDate.toISOString().split('T')[0])}`;
             }
 
-            // Hitung Rate
             const rateKontrak = activeMemo.rates[tenor] || 0;
             let rateAktual = 0;
             if (monthsPassed >= 1) {
@@ -327,7 +350,11 @@
                 }
             }
 
-            // Hitung Denda Penalty
+            const t_base = 365;
+            const bungaKontrakTotal = (nominal * (rateKontrak / 100) * diffDays) / t_base;
+            const bungaRiilTotal = (nominal * (rateAktual / 100) * diffDays) / t_base;
+            const reversal = Math.max(0, bungaKontrakTotal - bungaRiilTotal);
+
             let penalty = 0;
             if (isReinvest) {
                 if (reType === 'all') {
@@ -345,14 +372,17 @@
                 document.getElementById('penaltyLabel').innerText = "Denda Penalty (0,1%)";
             }
 
-            // Hitung Reversal
-            const bungaOldPerBln = nominal * (rateKontrak / 100 / 12);
-            const bungaNewPerBln = nominal * (rateAktual / 100 / 12);
-            const reversal = monthsPassed >= 1 ? (bungaOldPerBln - bungaNewPerBln) * monthsPassed : 0;
             const totalReceived = nominal - penalty - reversal;
+            const grandTotalBenefit = totalReceived + bungaKontrakTotal;
 
-            // Update UI
+            // Display per month estimates based on SOP (365 days / 12) or 30 days
+            const bungaOldPerBln = (nominal * (rateKontrak / 100) * 30) / t_base;
+            const bungaNewPerBln = (nominal * (rateAktual / 100) * 30) / t_base;
+            const selisihBln = monthsPassed > 0 ? (reversal / monthsPassed) : 0;
+
             document.getElementById('resTotal').innerText = formatRupiah(totalReceived);
+            document.getElementById('resTotalBenefit').innerText = `(Cair ${formatSimple(totalReceived)} + Bunga Diterima ${formatSimple(bungaKontrakTotal)} = ${formatRupiah(grandTotalBenefit)})`;
+            
             document.getElementById('resUmur').innerText = `${monthsPassed} Bulan (${diffDays} Hari)`;
             document.getElementById('resPenalty').innerText = "-" + formatRupiah(penalty);
             document.getElementById('resReversal').innerText = "-" + formatRupiah(reversal);
@@ -360,9 +390,14 @@
             document.getElementById('detMemo').innerText = memoLabel;
             document.getElementById('detRateOldP').innerText = `(${rateKontrak}%)`;
             document.getElementById('detRateNewP').innerText = `(${rateAktual}%)`;
-            document.getElementById('detRateOld').innerText = `${formatRupiah(bungaOldPerBln)} /bln`;
-            document.getElementById('detRateNew').innerText = `${formatRupiah(bungaNewPerBln)} /bln`;
-            document.getElementById('detTotalDiff').innerText = `${formatRupiah(reversal)} (${monthsPassed} bln)`;
+            document.getElementById('detRateOld').innerText = `${formatRupiah(bungaOldPerBln)} /bln*`;
+            document.getElementById('detRateNew').innerText = `${formatRupiah(bungaNewPerBln)} /bln*`;
+            
+            document.getElementById('detFormulaOld').innerText = `(${formatSimple(nominal)} x ${rateKontrak}% x ${diffDays}) / 365`;
+            document.getElementById('detFormulaNew').innerText = `(${formatSimple(nominal)} x ${rateAktual}% x ${diffDays}) / 365`;
+            
+            document.getElementById('detTotalDiff').innerText = formatRupiah(reversal);
+            document.getElementById('detBreakdown').innerText = monthsPassed > 0 ? `(${formatSimple(selisihBln)} x ${monthsPassed} bln)` : `(Sesuai Hari: ${diffDays} hari)`;
 
             document.getElementById('resultCard').classList.remove('hidden');
             document.getElementById('details').classList.add('hidden');
@@ -393,9 +428,7 @@
 
                 list.innerHTML += `
                     <div class="p-4 bg-white border-2 border-slate-100 rounded-2xl space-y-3">
-                        <div class="border-b border-slate-50 pb-2">
-                            <span class="text-[9px] font-black text-slate-900 uppercase tracking-tight leading-none">${label}</span>
-                        </div>
+                        <div class="border-b border-slate-50 pb-2"><span class="text-[9px] font-black text-slate-900 uppercase tracking-tight">${label}</span></div>
                         <div class="grid grid-cols-4 gap-2">${ratesHtml}</div>
                     </div>
                 `;
