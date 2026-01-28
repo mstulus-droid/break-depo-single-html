@@ -43,7 +43,7 @@
                 <div class="space-y-4">
                     <!-- Nominal Deposito -->
                     <div class="space-y-1">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Nominal Deposito</label>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter text-left block">Nominal Deposito</label>
                         <div class="relative">
                             <span class="absolute left-4 top-3.5 font-bold text-slate-400">Rp</span>
                             <input 
@@ -61,18 +61,18 @@
                     <!-- Tanggal -->
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-1 text-left">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Tanggal Tanam</label>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter block">Tanggal Tanam</label>
                             <input type="date" id="tglTanam" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm outline-none">
                         </div>
                         <div class="space-y-1 text-left">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Tanggal Break</label>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter block">Tanggal Break</label>
                             <input type="date" id="tglBreak" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm outline-none">
                         </div>
                     </div>
 
                     <!-- Tenor -->
                     <div class="space-y-1 text-left">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Tenor Kontrak Awal</label>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter block">Tenor Kontrak Awal</label>
                         <select id="tenor" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm outline-none bg-slate-50">
                             <option value="">Pilih Tenor</option>
                             <option value="1">1 Bulan</option>
@@ -137,8 +137,8 @@
                         <div class="flex justify-between text-sm items-center"><span class="text-slate-500 font-medium">Umur Deposito</span><span id="resUmur" class="font-bold">-</span></div>
                         <div class="flex justify-between text-sm items-center text-red-500"><span id="penaltyLabel" class="font-medium">Denda Penalty (0,1%)</span><span id="resPenalty" class="font-bold">-</span></div>
                         <div class="flex justify-between text-sm text-red-500 border-b border-slate-100 pb-3 items-start">
-                            <div class="flex flex-col">
-                                <span class="font-medium leading-tight">Kelebihan Bunga</span>
+                            <div class="flex flex-col text-left">
+                                <span class="font-medium leading-tight text-left block">Kelebihan Bunga</span>
                                 <span class="text-[9px] opacity-70 italic">(Harus Dikembalikan)</span>
                             </div>
                             <div class="flex flex-col items-end">
@@ -157,14 +157,14 @@
                                 </div>
                             </div>
                             <div class="flex justify-between text-slate-600">
-                                <span class="flex flex-col">
+                                <span class="flex flex-col text-left">
                                     <span>Bunga Kontrak <span id="detRateOldP"></span></span>
                                     <span id="detFormulaOld" class="text-[8px] opacity-50 font-normal italic leading-none mt-1"></span>
                                 </span>
                                 <span id="detRateOld" class="font-bold text-slate-800 text-right whitespace-nowrap">-</span>
                             </div>
                             <div class="flex justify-between text-slate-600 border-t border-slate-50 pt-2">
-                                <span class="flex flex-col">
+                                <span class="flex flex-col text-left">
                                     <span>Bunga Riil <span id="detRateNewP"></span></span>
                                     <span id="detFormulaNew" class="text-[8px] opacity-50 font-normal italic leading-none mt-1"></span>
                                 </span>
@@ -177,7 +177,7 @@
                                 </div>
                                 <div id="detBreakdown" class="text-[10px] text-red-400 text-right italic font-bold leading-tight"></div>
                             </div>
-                            <p class="text-[8px] text-slate-400 italic text-center">* Rumus SOP: (Nominal x Rate x Hari) / 365</p>
+                            <p class="text-[8px] text-slate-400 italic text-center w-full">* Rumus SOP: (Nominal x Rate x Hari) / 365</p>
                         </div>
                     </div>
                 </div>
@@ -194,7 +194,7 @@
         </div>
 
         <!-- FOOTER -->
-        <footer class="p-6 text-center bg-white border-t border-slate-50 flex flex-col items-center gap-1">
+        <footer class="p-6 text-center bg-white border-t border-slate-50 flex flex-col items-center gap-1 shrink-0">
             <div class="flex items-center gap-2 opacity-30 group hover:opacity-100 transition-opacity duration-500">
                 <div class="w-6 h-6 border-2 border-slate-900 rounded-full flex items-center justify-center font-black text-[8px] shrink-0">BD</div>
                 <div class="text-xs font-black tracking-tighter text-slate-900 uppercase">Bizdev Bank WM</div>
@@ -274,7 +274,16 @@
             const details = document.getElementById('details');
             const btn = document.getElementById('detailToggleBtn');
             details.classList.toggle('hidden');
-            btn.innerText = details.classList.contains('hidden') ? 'Lihat Rincian' : 'Tutup Rincian';
+            
+            if (details.classList.contains('hidden')) {
+                btn.innerText = 'Lihat Rincian';
+            } else {
+                btn.innerText = 'Tutup Rincian';
+                // Auto Scroll ke bagian bawah rincian agar langsung terlihat
+                setTimeout(() => {
+                    details.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 50);
+            }
         }
 
         function formatRupiah(num) {
@@ -375,7 +384,6 @@
             const totalReceived = nominal - penalty - reversal;
             const grandTotalBenefit = totalReceived + bungaKontrakTotal;
 
-            // Display per month estimates based on SOP (365 days / 12) or 30 days
             const bungaOldPerBln = (nominal * (rateKontrak / 100) * 30) / t_base;
             const bungaNewPerBln = (nominal * (rateAktual / 100) * 30) / t_base;
             const selisihBln = monthsPassed > 0 ? (reversal / monthsPassed) : 0;
@@ -402,7 +410,11 @@
             document.getElementById('resultCard').classList.remove('hidden');
             document.getElementById('details').classList.add('hidden');
             document.getElementById('detailToggleBtn').innerText = 'Lihat Rincian';
-            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'end' });
+            
+            // Scroll ke hasil kalkulasi awal
+            setTimeout(() => {
+                document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 100);
         }
 
         function renderHistory() {
@@ -423,12 +435,12 @@
 
                 let ratesHtml = '';
                 Object.entries(memo.rates).forEach(([t, r]) => {
-                    ratesHtml += `<div class="bg-slate-50 p-2 rounded-lg text-center border border-slate-100"><p class="text-[8px] text-slate-400 font-bold">${t}m</p><p class="text-[10px] font-black">${r}%</p></div>`;
+                    ratesHtml += `<div class="bg-slate-50 p-2 rounded-lg text-center border border-slate-100 shadow-sm"><p class="text-[8px] text-slate-400 font-bold">${t}m</p><p class="text-[10px] font-black">${r}%</p></div>`;
                 });
 
                 list.innerHTML += `
                     <div class="p-4 bg-white border-2 border-slate-100 rounded-2xl space-y-3">
-                        <div class="border-b border-slate-50 pb-2"><span class="text-[9px] font-black text-slate-900 uppercase tracking-tight">${label}</span></div>
+                        <div class="border-b border-slate-50 pb-2"><span class="text-[9px] font-black text-slate-900 uppercase tracking-tight text-left block">${label}</span></div>
                         <div class="grid grid-cols-4 gap-2">${ratesHtml}</div>
                     </div>
                 `;
